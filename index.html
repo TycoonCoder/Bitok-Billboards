@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitok Billboard</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #f4f4f4; padding: 20px; }
+        .billboard-frame {
+            max-width: 900px;
+            margin: 0 auto 20px;
+            background: #fff;
+            border: 8px solid #222;
+            padding: 10px;
+            box-shadow: 10px 10px 0px #ccc;
+        }
+        #adDisplay { width: 100%; height: auto; display: block; }
+        .crypto-address { background: #eee; padding: 10px; font-family: monospace; display: block; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+    <h1>Bitok Billboard</h1>
+    
+    <div class="billboard-frame">
+        <!-- The ID 'adDisplay' is what the script uses to change the image -->
+        <img id="adDisplay" src="ads/ad1.png" alt="Billboard Ad">
+    </div>
+
+    <div style="background: white; padding: 20px; display: inline-block; border-radius: 8px;">
+        <h3>Want to be in the rotation?</h3>
+        <p>Send <b>1-5 Coins</b> to: </p>
+        <code class="crypto-address">141KTCAuKksih5g68HgnYiqcMvkqKkD6vU</code>
+        <p>Buy a billboard by private messaging me at Bitcoin talk LINK: https://bitcointalk.org/index.php?action=profile;u=3750687 or private message me at bitok talk LINK: https://bitoktalk.xyz/index.php?action=profile;u=14<b>your@email.com</b></p>
+    </div>
+
+    <script>
+        // LIST YOUR SLOTS HERE
+        // Just upload files to an "ads" folder with these exact names
+        const adImages = [
+            'ads/ad1.png',
+            'ads/ad2.png',
+            'ads/ad3.png',
+            'ads/ad4.png',
+            'ads/ad5.png'
+        ];
+
+        let currentIndex = 0;
+        const imgElement = document.getElementById('adDisplay');
+
+        function rotateAds() {
+            currentIndex = (currentIndex + 1) % adImages.length;
+            
+            // This part checks if the image exists before showing it
+            const nextImg = new Image();
+            nextImg.src = adImages[currentIndex];
+            
+            nextImg.onload = () => {
+                imgElement.src = adImages[currentIndex];
+            };
+            
+            // If image doesn't exist, it quickly tries the next one
+            nextImg.onerror = () => {
+                rotateAds(); 
+            };
+        }
+
+        // Change ad every 5000ms (5 seconds)
+        setInterval(rotateAds, 5000);
+    </script>
+</body>
+</html>
