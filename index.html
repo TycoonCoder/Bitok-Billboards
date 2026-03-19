@@ -15,7 +15,20 @@
             box-shadow: 10px 10px 0px #ccc;
         }
         #adDisplay { width: 100%; height: auto; display: block; }
-        .crypto-address { background: #eee; padding: 10px; font-family: monospace; display: block; margin: 10px 0; }
+        .crypto-address { background: #eee; padding: 10px; font-family: monospace; display: block; margin: 10px 0; font-weight: bold; }
+        .contact-btn {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px 5px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .contact-btn:hover { background: #0056b3; }
+        .container { background: white; padding: 30px; display: inline-block; border-radius: 8px; max-width: 600px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -23,20 +36,22 @@
     <h1>Bitok Billboard</h1>
     
     <div class="billboard-frame">
-        <!-- The ID 'adDisplay' is what the script uses to change the image -->
         <img id="adDisplay" src="ads/ad1.png" alt="Billboard Ad">
     </div>
 
-    <div style="background: white; padding: 20px; display: inline-block; border-radius: 8px;">
+    <div class="container">
         <h3>Want to be in the rotation?</h3>
         <p>Send <b>1-5 Coins</b> to: </p>
         <code class="crypto-address">141KTCAuKksih5g68HgnYiqcMvkqKkD6vU</code>
-        <p>Buy a billboard by private messaging me at Bitcoin talk LINK: https://bitcointalk.org/index.php?action=profile;u=3750687 or private message me at bitok talk LINK: https://bitoktalk.xyz/index.php?action=profile;u=14<b>your@email.com</b></p>
+        
+        <p>Buy a billboard by private messaging me at:</p>
+        
+        <a href="https://bitcointalk.org" target="_blank" class="contact-btn">Bitcoin Talk Profile</a>
+        <a href="https://bitoktalk.xyz" target="_blank" class="contact-btn">Bitok Talk Profile</a>
     </div>
 
     <script>
-        // LIST YOUR SLOTS HERE
-        // Just upload files to an "ads" folder with these exact names
+        // Rotating logic
         const adImages = [
             'ads/ad1.png',
             'ads/ad2.png',
@@ -50,23 +65,13 @@
 
         function rotateAds() {
             currentIndex = (currentIndex + 1) % adImages.length;
-            
-            // This part checks if the image exists before showing it
             const nextImg = new Image();
             nextImg.src = adImages[currentIndex];
-            
-            nextImg.onload = () => {
-                imgElement.src = adImages[currentIndex];
-            };
-            
-            // If image doesn't exist, it quickly tries the next one
-            nextImg.onerror = () => {
-                rotateAds(); 
-            };
+            nextImg.onload = () => { imgElement.src = adImages[currentIndex]; };
+            nextImg.onerror = () => { rotateAds(); };
         }
 
-        // Change ad every 5000ms (5 seconds)
-        setInterval(rotateAds, 5000);
+        setInterval(rotateAds, 5000); // 5 second rotation
     </script>
 </body>
 </html>
