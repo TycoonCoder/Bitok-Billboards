@@ -13,8 +13,20 @@
             border: 8px solid #222;
             padding: 10px;
             box-shadow: 10px 10px 0px #ccc;
+            overflow: hidden; /* Keeps the frame clean during transition */
         }
-        #adDisplay { width: 100%; height: auto; display: block; }
+        
+        /* FADE ANIMATION */
+        #adDisplay { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            opacity: 1;
+            transition: opacity 0.6s ease-in-out; 
+        }
+        
+        .fade-out { opacity: 0 !important; }
+
         .crypto-address { background: #eee; padding: 10px; font-family: monospace; display: block; margin: 10px 0; font-weight: bold; }
         .contact-btn {
             display: inline-block;
@@ -51,7 +63,6 @@
     </div>
 
     <script>
-        // Rotating logic
         const adImages = [
             'ads/ad1.png',
             'ads/ad2.png',
@@ -60,18 +71,35 @@
             'ads/ad5.png'
         ];
 
-        let currentIndex = 0;
         const imgElement = document.getElementById('adDisplay');
 
         function rotateAds() {
-            currentIndex = (currentIndex + 1) % adImages.length;
+            // Pick a random image from the list
+            const randomIndex = Math.floor(Math.random() * adImages.length);
+            const nextImgSrc = adImages[randomIndex];
+
             const nextImg = new Image();
-            nextImg.src = adImages[currentIndex];
-            nextImg.onload = () => { imgElement.src = adImages[currentIndex]; };
-            nextImg.onerror = () => { rotateAds(); };
+            nextImg.src = nextImgSrc;
+
+            nextImg.onload = () => {
+                // 1. Fade out current image
+                imgElement.classList.add('fade-out');
+
+                // 2. Wait for fade (600ms), then swap and fade back in
+                setTimeout(() => {
+                    imgElement.src = nextImgSrc;
+                    imgElement.classList.remove('fade-out');
+                }, 600);
+            };
+
+            // If image is missing, try again immediately with another random one
+            nextImg.onerror = () => {
+                rotateAds();
+            };
         }
 
-        setInterval(rotateAds, 5000); // 5 second rotation
+        // Cycle every 5 seconds
+        setInterval(rotateAds, 5000);
     </script>
 </body>
 </html>
